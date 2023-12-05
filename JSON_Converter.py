@@ -18,18 +18,21 @@ def Image_to_JSON(image_path):
         
         return json_image
 
-def JSON_to_Image(json_image_path):
-    with open(json_image_path, 'r') as json_image:
-        json_image_data = json.load(json_image)
+def JSON_to_Image(json_object):
+# Uncomment when running this script by itself
+#    with open(json_image_path, 'r') as json_image:
+#        json_image_data = json.load(json_image)
         
-        binary_image = base64.b64decode(json_image_data['data'])
+#        binary_image = base64.b64decode(json_image_data['data'])
 
-        image_buffer = BytesIO(binary_image) 
-        
-        image = np.array(Image.open(image_buffer))
-        
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    binary_image = base64.b64decode(json_object['data'])
+
+    image_buffer = BytesIO(binary_image) 
     
+    image = np.array(Image.open(image_buffer))
+    
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
     return image_rgb   
 
 if __name__ == '__main__':
