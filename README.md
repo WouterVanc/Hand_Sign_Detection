@@ -8,8 +8,7 @@ The repository contains two models:
 You can find the necessary packages to run these script in the requirements.txt file. 
 
 Once the right packages are installed, both the [Detect_Hand_Signs_Live.py](Detect_Hand_Signs_Live.py) (=positional logic model) 
-and the [Detect_Hand_Signs_Live_Classifier.py](Detect_Hand_Signs_Live_Classifier.py) (=classification model) can detect four hand signs (open hand, peace, surf hand. I love you)
-on a live webcam feed, as well as waving at the camera. Press 'q' to stop your session. 
+and the [Detect_Hand_Signs_Live_Classifier.py](Detect_Hand_Signs_Live_Classifier.py) (=classification model) can detect four hand signs (open hand, peace, surf hand. I love you) as well as waving on a live webcam feed. Press 'q' to stop your session. 
 
 The [Benchmark_Models.py](Benchmark_Models.py) calculates the run time and accuracy of both models on 10 images.
 
