@@ -5,11 +5,11 @@ from Detect_Hand_Signs_Live import Detect_Hands, Retrieve_Landmark_Data, Count_F
 
 app = Flask(__name__)
 
-# Initialize mediapipe models
-mp_hands = mp.solutions.hands 
-
 @app.route('/predict', methods = ['POST'])
 def predict():
+    
+    # Initialize mediapipe models
+    mp_hands = mp.solutions.hands
     
     json_image = request.json
     
