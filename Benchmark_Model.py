@@ -13,7 +13,7 @@ def main():
     mp_hands = mp.solutions.hands
 
     # Import pictures
-    data_path = 'Hand_Sign_Detection//Dataset_Benchmark'
+    data_path = 'Hand_Sign_Detection/Dataset_Benchmark'
     pictures = os.listdir(data_path)
     
     start = time.time()

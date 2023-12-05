@@ -5,7 +5,7 @@ import os
 
 def main():
     
-    data_path = 'Hand_Sign_Detection//Dataset_Benchmark'
+    data_path = 'Hand_Sign_Detection/Dataset_Benchmark'
     
     if not os.path.exists(data_path):
         os.mkdir(data_path)
