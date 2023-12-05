@@ -51,6 +51,24 @@ def Retrieve_Landmark_Data(frame, results):
         
     return landmark_list
 
+def Thumb_Angle(landmark_data):
+    
+    '''
+    Function to calculate the angle between landmark 2, 3, and 4. This to counter a surf sign with a bent thumb. 
+    '''
+    
+    lm = landmark_data
+    
+    v1 = [lm[4][0] - lm[3][0], lm[4][1] - lm[3][1]]
+    v2 = [lm[3][0] - lm[2][0], lm[3][1] - lm[2][1]]
+    
+    dot_prod = np.dot(v1,v2)
+    mag_prod = np.linalg.norm(v1) * np.linalg.norm(v2)
+    
+    np.degrees(np.arccos(dot_prod / mag_prod))
+    
+    return np.degrees(np.arccos(dot_prod / mag_prod))    
+
 def Count_Fingers_Up(landmark_data):
     
     '''
@@ -62,7 +80,7 @@ def Count_Fingers_Up(landmark_data):
     lm = landmark_data
     fingers_up = []
     
-    if abs(lm[4][1] - lm[0][1]) > abs(lm[3][1] - lm[0][1]): # horizontal distance for thumb 
+    if abs(lm[4][1] - lm[0][1]) > abs(lm[3][1] - lm[0][1]) and Thumb_Angle(lm) < 4: # horizontal distance for thumb + angle logic to make sure it is straight. 
         fingers_up.append(0)    
     
     # index finger = 1 
@@ -128,8 +146,6 @@ def main():
                 
                 finger_count = Count_Fingers_Up(landmark_list)
                 
-                print(finger_count)
-                
                 hand_sign = Hand_Sign_Detection(finger_count)
                 
                 print(hand_sign)
@@ -144,6 +160,5 @@ def main():
     webcam.release()   
     cv2.destroyAllWindows()
         
-    
 if __name__ == '__main__':
     main()
