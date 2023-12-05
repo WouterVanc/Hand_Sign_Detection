@@ -25,4 +25,4 @@ Make the necessary changes to the number of hand signs and the number of images 
 Run the script and press 'c' to start capturing the specific hand sign once the webcam feed pops-up.
 
 Next, use [Train_Classifier.py](Train_Classifier.py) to train a classifier model on the dataset. 
-Finally, the other classifier script will be adjusted accordingly. 
+Finally, the other scripts that use the classifier will be adjusted accordingly. 
