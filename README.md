@@ -4,7 +4,7 @@ This repository contains a computer vision project to detect hand signs and wavi
 
 You can find the necessary packages to run these script in the requirements.txt file. 
 
-Once the right depencies are installed, run the 'Detect_Hand_Signs_Live.py' for live detection with your webcam.
+Once the right packages are installed, run the 'Detect_Hand_Signs_Live.py' for live detection with your webcam.
 Press 'q' to stop. 
 
 The 'Benchmark_Model.py' calculates the run time and accuracy of the model on 10 images.
