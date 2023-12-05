@@ -10,7 +10,6 @@ from Detect_Hand_Signs_Live import Detect_Hands, Retrieve_Landmark_Data
 
 def main():
     # Set up mediapipe
-    mp_drawing = mp.solutions.drawing_utils
     mp_hands = mp.solutions.hands
 
     data_path = 'Hand_Sign_Detection/Dataset_Classifier'

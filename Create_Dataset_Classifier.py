@@ -21,8 +21,8 @@ def main():
 
     # Iterate over hand signs to capture the images for each class
     for sign in range(number_of_signs):
-        if not os.path.exists(os.path.join(data_path, f"{sign_dic[sign]}")):
-            os.makedirs(os.path.join(data_path, f"{sign_dic[sign]}"))
+        if not os.path.exists(os.path.join(data_path, f"{sign}")):
+            os.makedirs(os.path.join(data_path, f"{sign}"))
         
         print(f"Prepare to capture images for {sign_dic[sign]}")
         
@@ -52,7 +52,7 @@ def main():
             
             cv2.imshow('Capture hand signs', frame)    
             cv2.waitKey(1) # /1000 = seconds between capturse
-            cv2.imwrite(os.path.join(data_path, f"{sign_dic[sign]}", f"{count}.jpg"), frame)
+            cv2.imwrite(os.path.join(data_path, f"{sign}", f"{count}.jpg"), frame)
             
             count += 1 
             
