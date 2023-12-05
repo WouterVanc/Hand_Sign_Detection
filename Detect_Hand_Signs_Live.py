@@ -117,7 +117,23 @@ def Hand_Sign_Detection(finger_count):
         return 'Surf Hand'
     
     if finger_count == [0,1,4]:
-        return 'I Love You' 
+        return 'I Love You'
+    
+def Display_Bounding_Box(frame, landmark_data, hand_sign):
+    
+    '''
+    Function to create bounding box that adapts to the size of the hand
+    and displays the hand sign on top. 
+    '''
+     
+    x_values = [lm[1] for lm in landmark_data]
+    y_values = [lm[2] for lm in landmark_data]
+    
+    x_min, y_min = min(x_values) - 15, min(y_values) - 15
+    x_max, y_max = max(x_values) + 15, max(y_values) + 15     
+
+    cv2.rectangle(frame, (x_min,y_min), (x_max, y_max), (0,0,0), 2)
+    cv2.putText(frame, hand_sign, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 2, cv2.LINE_AA)         
 
 def main():
     
@@ -148,7 +164,7 @@ def main():
                 
                 hand_sign = Hand_Sign_Detection(finger_count)
                 
-                print(hand_sign)
+                Display_Bounding_Box(image, landmark_list, hand_sign)
                
             cv2.imshow('Live Hand Tracking', image)
             
