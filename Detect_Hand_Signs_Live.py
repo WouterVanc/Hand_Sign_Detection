@@ -65,7 +65,10 @@ def Thumb_Angle(landmark_data):
     dot_prod = np.dot(v1,v2)
     mag_prod = np.linalg.norm(v1) * np.linalg.norm(v2)
     
-    np.degrees(np.arccos(dot_prod / mag_prod))
+    arccos_input = dot_prod / mag_prod
+    
+    if not -1 <= arccos_input <= 1: 
+        return 0
     
     return np.degrees(np.arccos(dot_prod / mag_prod))    
 
@@ -133,14 +136,50 @@ def Display_Bounding_Box(frame, landmark_data, hand_sign):
     x_max, y_max = max(x_values) + 15, max(y_values) + 15     
 
     cv2.rectangle(frame, (x_min,y_min), (x_max, y_max), (0,0,0), 2)
-    cv2.putText(frame, hand_sign, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 2, cv2.LINE_AA)         
+    cv2.putText(frame, hand_sign, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 2, cv2.LINE_AA)
+
+def Detect_Waving(frame, landmark_data, prev_landmark_data, hand_sign):
+    
+    '''
+    Function to detect waving motion based on open hand and the vertical 
+    and horizontal displacement of landmarks between consecutive frames
+    '''
+    
+    motion = ' '
+
+    # Key parameters
+    frames_to_track = 1 
+    waving_threshold = 50
+    vert_threshold = 30
+    
+    if hand_sign == 'Open Hand':
+        if len(prev_landmark_data) >= frames_to_track:
+            hor_displacement_top = abs(landmark_data[12][1] - prev_landmark_data[-frames_to_track][12][1]) 
+            hor_displacement_bottem = abs(landmark_data[0][1] - prev_landmark_data[-frames_to_track][0][1])
+            vert_displacement_bottem = abs(landmark_data[0][2] - prev_landmark_data[-frames_to_track][0][2])
+
+            # Waving logic 
+            if hor_displacement_top > waving_threshold and hor_displacement_top > 1.2 * hor_displacement_bottem and vert_displacement_bottem < vert_threshold:
+                motion = 'Waving!'
+            
+        prev_landmark_data.append(landmark_data)
+        
+        # Only keep last 5 frames
+        prev_landmark_data = prev_landmark_data[-frames_to_track:]
+        
+        cv2.putText(frame, motion, (3,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+   
+    return prev_landmark_data                 
 
 def main():
     
     # Initialize mediapipe models
     mp_drawing = mp.solutions.drawing_utils
     mp_hands = mp.solutions.hands
-
+    
+    # Initialize prevous_landmark_data
+    prev_landmark_data = []
+    
     # Set up live webcam feed
     webcam = cv2.VideoCapture(0)
 
@@ -154,18 +193,25 @@ def main():
             
             image, results = Detect_Hands(frame, hands)
             
+            cv2.rectangle(image, (0,0), (640, 40), (18, 28, 179), -1)
+            
             if results.multi_hand_landmarks:
                 
+                # Render results and draw landmark
                 Draw_Hand_Landmarks(image, results, mp_hands, mp_drawing)
                 
-                landmark_list = Retrieve_Landmark_Data(image, results)
+                # Detect handsign logic and display
+                landmark_data = Retrieve_Landmark_Data(image, results)
                 
-                finger_count = Count_Fingers_Up(landmark_list)
+                finger_count = Count_Fingers_Up(landmark_data)
                 
                 hand_sign = Hand_Sign_Detection(finger_count)
                 
-                Display_Bounding_Box(image, landmark_list, hand_sign)
-               
+                Display_Bounding_Box(image, landmark_data, hand_sign)
+                
+                # Detect waving and display
+                prev_landmark_data = Detect_Waving(image, landmark_data, prev_landmark_data, hand_sign)
+                
             cv2.imshow('Live Hand Tracking', image)
             
             # Escape mechanism when q is pressed 
