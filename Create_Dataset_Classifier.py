@@ -15,7 +15,7 @@ def main():
         2: 'Surf Hand',
         3: 'I Love You'
     }
-
+    
     # Initialize webcam 
     webcam = cv2.VideoCapture(0)
 
