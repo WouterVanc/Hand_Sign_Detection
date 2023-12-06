@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from JSON_Converter import JSON_to_Image
 import mediapipe as mp 
 from Detect_Hand_Signs_Live import Detect_Hands, Retrieve_Landmark_Data
@@ -42,7 +42,7 @@ def predict():
         pred_raw = model.predict([np.array(image_data)])
         hand_sign = sign_dic[int(pred_raw[0][0])]
         
-        return hand_sign  
+        return jsonify({'Hand Sign': hand_sign})  
 
 if __name__ == '__main__':
     

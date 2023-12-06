@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from JSON_Converter import JSON_to_Image
 import mediapipe as mp 
 from Detect_Hand_Signs_Live import Detect_Hands, Retrieve_Landmark_Data, Count_Fingers_Up, Hand_Sign_Detection
@@ -23,9 +23,8 @@ def predict():
         
         finger_count = Count_Fingers_Up(landmark_data)
         
-        return Hand_Sign_Detection(finger_count)
+        return jsonify({'Hand Sign': Hand_Sign_Detection(finger_count)})
     
 if __name__ == '__main__':
     
     app.run(debug=True)
-                
