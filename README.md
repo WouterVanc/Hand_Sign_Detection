@@ -1,10 +1,13 @@
 # Hand_Sign_Detection
 
+DEMO -> [youtube_video](https://youtu.be/w1xTUtiE3qo)
+
 This repository contains a computer vision project to detect hand signs and waving on a live webcam feed and on saved images. 
 The repository contains two models:
     - A model that detects hand signs based on the position of the hand landmarks
     - A classifier model that has been trained on a dataset to detect handsigns
 
+Project was made with Python 3.11.6
 You can find the necessary packages to run these script in the requirements.txt file. 
 
 Once the right packages are installed, both the [Detect_Hand_Signs_Live.py](Detect_Hand_Signs_Live.py) (=positional logic model) 
